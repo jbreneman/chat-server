@@ -7,27 +7,29 @@ module.exports = {
 			.includes(name.toLowerCase());
 	},
 
-	escapeHtml: function(unsafe) {
-		return unsafe
-	     .replace(/&/g, '&amp;')
-	     .replace(/</g, '&lt;')
-	     .replace(/>/g, '&gt;')
-	     .replace(/"/g, '&quot;')
-	     .replace(/'/g, '&#039;');
+	escapeHtml(message) {
+		message.text
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#039;');
+
+		return message;
 	},
 
 	parseCommand(message) {
 		const commands = ['/me'];
-		const firstWord = message.text.split(' ').slice(0, 1).toLowerCase();
+		const firstWord = message.text.split(' ')[0].toLowerCase();
 
 		if (commands.includes(firstWord)) {
-			return Object.assign({}, data, { command: commands.filter(command => command === firstWord).slice(0, 1) });
+			return Object.assign({}, data, { command: commands.filter(command => command === firstWord)[0] });
 		}
 
-		return data;
+		return message;
 	},
 
 	processMessage(message) {
-		return parseCommand(escapeHtml(message));
+		return this.parseCommand(this.escapeHtml(message));
 	}
 };
