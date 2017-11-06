@@ -20,12 +20,12 @@ io.on('connection', (socket) => {
 
 	// Check against existing users and pass user data back with an available flag
 	socket.on('verifyName', (user) => {
-		io.to(socket.id).emit('verifyName', Object.assign({}, user, { available: chat.nameAvailable(user, store.users) }));
+		io.to(socket.id).emit('verifyName', Object.assign({}, user, { available: chat.nameAvailable(user.name, store.users) }));
 	});
 
 	// Actual user connection - notifies chat and adds to connected users list
 	socket.on('userConnect', (user) => {
-
+		user.id = socket.id;
 		session.username = user.name;
 
 		if(!user.reconnect) {
@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
 	// User reconnect
 	socket.on('reconnect', (socket) => {
 		io.to(socket.id).emit('allMessages', { messages: store.messages });
-
+		
 		store.users = store.users.push(session.username).sort();
 		io.emit('updateUserlist', { users: store.users });
 	});

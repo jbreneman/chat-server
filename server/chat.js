@@ -2,7 +2,7 @@
 
 module.exports = {
 	nameAvailable(name, users) {
-		return users
+		return !users
 			.map(user => user.name.toLowerCase())
 			.includes(name.toLowerCase());
 	},
