@@ -37,6 +37,17 @@ io.on('connection', (socket) => {
 		io.emit('updateUserlist', { users: store.users });
 	});
 
+	// Set name. Mainly used to update name
+	socket.on('setName', (user) => {
+		store.users.push(user);
+		store.users = store.users
+			.filter(user => user.name !== session.username)
+			.sort();
+
+		session.username = user.name;
+		io.emit('updateUserlist', { users: store.users });
+	});
+
 	// User disconnect - removes from list
 	socket.on('disconnect', () => {
 		store.users = store.users.filter(user => user.name !== session.username);
@@ -46,7 +57,7 @@ io.on('connection', (socket) => {
 	// User reconnect
 	socket.on('reconnect', (socket) => {
 		io.to(socket.id).emit('allMessages', { messages: store.messages });
-		
+
 		store.users = store.users.push(session.username).sort();
 		io.emit('updateUserlist', { users: store.users });
 	});
