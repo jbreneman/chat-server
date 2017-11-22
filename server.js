@@ -3,7 +3,14 @@ const config = require('./server/config.js');
 const server = require('http').createServer();
 const io = require('socket.io')(server, {
 	origins: 'http//localhost:* http//127.0.0.1:* netlify.com jessebreneman.com',
-	transports: ['websocket']
+	transports: [
+    'websocket', 
+    'flashsocket', 
+    'htmlfile', 
+    'xhr-polling', 
+    'jsonp-polling', 
+    'polling'
+  ]
 });
 const chat = require('./server/chat.js');
 
