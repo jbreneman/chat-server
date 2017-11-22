@@ -2,7 +2,7 @@
 const config = require('./server/config.js');
 const server = require('http').createServer();
 const io = require('socket.io')(server, {
-	origins: 'http//localhost:* http//127.0.0.1:* https//*.netlify.com https//*.jessebreneman.com'
+	origins: 'http//localhost:* http//127.0.0.1:* netlify.com jessebreneman.com'
 });
 const chat = require('./server/chat.js');
 
