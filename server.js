@@ -1,17 +1,7 @@
 'use strict';
 const config = require('./server/config.js');
 const server = require('http').createServer();
-const io = require('socket.io')(server, {
-	origins: 'localhost:* 127.0.0.1:* netlify.com:* jessebreneman.com:*',
-	transports: [
-    'websocket', 
-    'flashsocket', 
-    'htmlfile', 
-    'xhr-polling', 
-    'jsonp-polling', 
-    'polling'
-  ]
-});
+const io = require('socket.io')(server);
 const chat = require('./server/chat.js');
 
 // Simple in memory store. Yeah this is not a complicated chat app :p
