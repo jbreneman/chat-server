@@ -69,7 +69,10 @@ io.on('connection', (socket) => {
 		const id = store.messages.length > 0 ? store.messages.slice(-1)[0].id + 1 : 0;
 
 		store.messages.push(Object.assign(processed, { id }));
-		store.messages = store.messages.slice(0, max);
+
+		if (store.messages.length > max) {
+			store.messages = store.messages.slice(1);
+		}
 
 		io.emit('chatMessage', { message: processed });
 	});
